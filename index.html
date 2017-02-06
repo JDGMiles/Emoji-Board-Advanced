@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><title>Emoji Board Advanced</title>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="viewport" content="width=550, initial-scale=1">
+
+</head>
+
+<body>
+	<center>
+
+		<div id="popup1" class="overlay">
+			<div class="popup" style="text-align:center">
+				<a class="close" style="right: 30px;" href="#">&times;</a>
+				<div style="font-family:Georgia; color:white; text-decoration:underline; font-size:49px">Emoji Board Advanced</div><br>
+				<span style="font-family:Georgia; font-size:35px; color:white;">Click an emoji to show its HTML code.<br style="font-size:48px;">The left and right arrows change pages.</span><br style="font-size:30px">
+			</div>
+		</div>
+
+		<table id="gridtable">
+		</table>
+
+		<br>
+
+		<table style="background-color:black;">
+			<td>
+				<img onclick="pageback()" title="Information" src="../jdgmiles.github.io/Left Arrow White.png" style="width:60px; height:60px">
+				<img onclick="generatetablecode()" title="Information" src="../jdgmiles.github.io/Right Arrow White.png" style="width:60px; height:60px">
+			</td>
+		</table>
+
+		<table style="background-color:black;">
+			<td>
+				<a id="specificcodefirstbit" class="clipboard">Click an emoji to see its HTML code.<span class="clipboard" id="specificcode"></span></a>
+			</td>
+		</table>
+
+<!--
+		<table style="background-color:black;">
+			<td>
+				<a href="#popup1"><img title="Information" src="../jdgmiles.github.io/questionmark.png" style="width:60px; height:60px"></a>
+				<a href="https://twitter.com/jimdgmiles" target=blank_><img title="James Miles on Twitter" src="../jdgmiles.github.io/twitter.png" style="width:60px; height:60px"></a>
+				<a href="http://jdgmiles.github.io/" target="_blank"><img title="Projects Page" src="../jdgmiles.github.io/jdgm.png" style="width:60px; height:60px"></a>
+			</td>
+		</table>
+-->
+
+	</center>
+</body>
+</html>
+
+<script type="text/javascript">
+var startcode=128114;
+var currentcode=startcode;
+var gridwidth=20;
+var gridheight=8;
+
+var tablecontents="";
+
+function generatetablecode() {
+
+	tablecontents="";
+
+	for(i=0; i<gridwidth; i++){
+
+		tablecontents=tablecontents+"<td align=\"center\" style=\"padding:0px 0px 0px 0px\">"
+
+		for(j=0; j<gridheight; j++){
+			tablecontents=tablecontents+"<span class=\"listedstuff\" onclick=\"copyToClipboard(this); document.getElementById('specificcodefirstbit').innerHTML='&#"+currentcode+" = &#<span>"+currentcode+"</span>';\">&#"+currentcode+";</span><br>";
+			currentcode++;
+		}
+
+		tablecontents=tablecontents+"</td>";
+
+	}
+
+	document.getElementById("gridtable").innerHTML=tablecontents;
+
+}
+
+function pageback() {
+	currentcode=currentcode-2*gridwidth*gridheight;
+	generatetablecode();
+}
+
+function copyToClipboard(elem) {
+	  // create hidden text element, if it doesn't already exist
+    var targetId = "_hiddenCopyText_";
+    var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+    var origSelectionStart, origSelectionEnd;
+    if (isInput) {
+        // can just use the original source element for the selection and copy
+        target = elem;
+        origSelectionStart = elem.selectionStart;
+        origSelectionEnd = elem.selectionEnd;
+    } else {
+        // must use a temporary form element for the selection and copy
+        target = document.getElementById(targetId);
+        if (!target) {
+            var target = document.createElement("textarea");
+            target.style.position = "absolute";
+            target.style.left = "-9999px";
+            target.style.top = "0";
+            target.id = targetId;
+            document.body.appendChild(target);
+        }
+        target.textContent = elem.textContent;
+    }
+    // select the content
+    var currentFocus = document.activeElement;
+    target.focus();
+    target.setSelectionRange(0, target.value.length);
+
+    // copy the selection
+    var succeed;
+    try {
+    	  succeed = document.execCommand("copy");
+    } catch(e) {
+        succeed = false;
+    }
+}
+
+generatetablecode();
+
+</script>
